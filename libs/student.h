@@ -19,7 +19,9 @@ struct student_t
     struct dorm_t *dorm;
 };
 
-struct student_t create_student(char *_id, char *_name, char *_year,
-                                enum gender_t _gender);
-
+struct student_t create_student(char *_id, char *_name, char *_year, enum gender_t _gender);
+void print_student(struct student_t *mahasiswa, int count);
+void print_student_detail(struct student_t *mahasiswa, int count);
+void assign_student(struct student_t *mahasiswa, struct dorm_t *dormitories, struct dorm_t *old_dorm, char *id, char *dorm_name);
+void move_student(struct student_t *mahasiswa, struct dorm_t *dormitories, struct dorm_t *old_dorm, char *id, char *dorm_name);
 #endif

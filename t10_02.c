@@ -1,5 +1,5 @@
-// NIM - Name
-// NIM - Name
+// 12S23019 - Clarasia L. Simanjuntak
+// 12S23029 - Sintong Hutapea
 
 #include <stdio.h>
 #include "./libs/dorm.h"
