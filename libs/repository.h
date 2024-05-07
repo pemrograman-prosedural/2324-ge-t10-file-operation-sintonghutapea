@@ -10,5 +10,6 @@
  * The actual function implementation should be defined in the corresponding source file.
  *
  */
-
+struct dorm_t create_dorm_repository(char *input);
+struct student_t create_student_repository(char *_id, char *_name, char *_year, enum gender_t _gender);
 #endif
