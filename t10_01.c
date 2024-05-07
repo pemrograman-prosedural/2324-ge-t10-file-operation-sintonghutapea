@@ -9,7 +9,7 @@
 #include "./libs/gender.h"
 #include "./libs/repository.h"
 
-int main(int _argc, char **_argv)
+int main(int argc, char **argv)
 {
     struct dorm_t *dorms = malloc(100 * sizeof(struct dorm_t));
     struct student_t *students = malloc(100 * sizeof(struct student_t));
@@ -20,7 +20,6 @@ int main(int _argc, char **_argv)
     char nama_asrama[50];
     unsigned short capacity;
     char *teks_sementara;
-    int index_siswa, index_asrama;
     int sisw_a = 0, asram_a = 0;
 
     FILE *Mahasiswa;
@@ -28,27 +27,23 @@ int main(int _argc, char **_argv)
     Asrama = fopen("storage/dorm-repository.txt", "r");
     Mahasiswa = fopen("storage/student-repository.txt", "r");
 
-    while (1)
+    while (fgets(string, sizeof(string), Asrama) != NULL)
     {
-        fscanf(Asrama, "%[^\n]\n", string);
+        string[strcspn(string, "\n")] = '\0'; 
         dorms[asram_a] = create_dorm_repository(string);
         asram_a++;
-        if (feof(Asrama))
-        {
-            break;
-        }
     }
 
-    while (1)
+    while (fgets(string, sizeof(string), Mahasiswa) != NULL)
     {
-        fscanf(Mahasiswa, "%[^\n]\n", string);
+        string[strcspn(string, "\n")] = '\0'; 
         teks_sementara = strtok(string, "|");
         strcpy(nim, teks_sementara);
-        teks_sementara = strtok('\0', "|");
+        teks_sementara = strtok(NULL, "|");
         strcpy(nama_siswa, teks_sementara);
-        teks_sementara = strtok('\0', "|");
+        teks_sementara = strtok(NULL, "|");
         strcpy(tahun, teks_sementara);
-        teks_sementara = strtok('\0', "|");
+        teks_sementara = strtok(NULL, "|");
 
         if (strcmp(teks_sementara, "male") == 0)
         {
@@ -59,32 +54,16 @@ int main(int _argc, char **_argv)
             students[sisw_a] = create_student_repository(nim, nama_siswa, tahun, GENDER_FEMALE);
         }
         sisw_a++;
-        if (feof(Mahasiswa))
-        {
-            break;
-        }
     }
 
     while (1)
     {
-        fflush(stdin);
-        string[0] = '\0';
-        int c = 0;
-
-        do
+        fflush(stdout);
+        if (fgets(string, sizeof(string), stdin) == NULL)
         {
-            char x = getchar();
-            if (x == '\r')
-            {
-                continue;
-            }
-            if (x == '\n')
-            {
-                break;
-            }
-            string[c] = x;
-            string[++c] = '\0';
-        } while (1);
+            break;
+        }
+        string[strcspn(string, "\n")] = '\0';
 
         teks_sementara = strtok(string, "#");
         if (strcmp(teks_sementara, "---") == 0)
@@ -97,13 +76,13 @@ int main(int _argc, char **_argv)
         }
         else if (strcmp(teks_sementara, "student-add") == 0)
         {
-            teks_sementara = strtok('\0', "#");
+            teks_sementara = strtok(NULL, "#");
             strcpy(nim, teks_sementara);
-            teks_sementara = strtok('\0', "#");
+            teks_sementara = strtok(NULL, "#");
             strcpy(nama_siswa, teks_sementara);
-            teks_sementara = strtok('\0', "#");
+            teks_sementara = strtok(NULL, "#");
             strcpy(tahun, teks_sementara);
-            teks_sementara = strtok('\0', "#");
+            teks_sementara = strtok(NULL, "#");
 
             if (strcmp(teks_sementara, "male") == 0)
             {
@@ -121,11 +100,11 @@ int main(int _argc, char **_argv)
         }
         else if (strcmp(teks_sementara, "dorm-add") == 0)
         {
-            teks_sementara = strtok('\0', "#");
+            teks_sementara = strtok(NULL, "#");
             strcpy(nama_asrama, teks_sementara);
-            teks_sementara = strtok('\0', "#");
+            teks_sementara = strtok(NULL, "#");
             capacity = atoi(teks_sementara);
-            teks_sementara = strtok('\0', "#");
+            teks_sementara = strtok(NULL, "#");
             if (strcmp(teks_sementara, "male") == 0)
             {
                 dorms[asram_a] = create_dorm(nama_asrama, capacity, GENDER_MALE);
